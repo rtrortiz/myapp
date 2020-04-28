@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 const { check, validationResult } = require('express-validator/check');
 // Get User model
 const User = require('../../models/Users');
@@ -22,14 +24,14 @@ router.post('/',[
     
     try {
         
-    // See if user exists
+// See if user exists
     let user = await User.findOne({ email });
     
         if (user){
             return res.status(400).json({ errors: [{ msg: 'User already exits'}] });
         }
     
-    // Get users gravatar
+// Get users gravatar
     const avatar = gravatar.url(email, {
         s: '200',
         r: 'pg',
@@ -43,19 +45,32 @@ router.post('/',[
         password
     });
     
-    // Encrypt password-using bcyrpt
+// Encrypt password-using bcyrpt
     
 const salt = await bcrypt.genSalt(10);
 
 user.password = await bcrypt.hash(password, salt);
+
+// Saves user
+await user.save();//gives us a promise in return so that we can access data
+    
+// Return jsonwebtoken-inorder for a user to stay logged in they will their webtoken
+    
+const payload = {
+    user: {
+        id: user.id
+    }
+}
         
-await user.save();
+jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 3600}, 
+    (err, token) => {
+    if(err) throw err;
+    res.json({token});
     
-// Return jsonwebtoken-inorder a user to stay logged in they will their webtoken
     
-//////////////////////////
-   // res.send('User route');
-    res.send('User registered');
+}); 
+        
+///////
         
     } catch(err) {
         

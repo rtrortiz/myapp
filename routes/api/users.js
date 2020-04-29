@@ -78,17 +78,7 @@ jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 3600},
         res.status(500).send('Server error');
 }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-            
+           
 });
 
 module.exports = router;

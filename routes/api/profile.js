@@ -54,6 +54,45 @@ router.post('/', [ auth, [
     
     // Build profile object
     const profileFields = {};
+    profileFields.user = req.user.id;
+    if(company) profileFields.company = company;
+    if(location) profileFields.location = location;
+    if(website) profileFields.website = website;
+    if(bio) profileFields.bio= bio;
+    if(status) profileFields.status= status;
+    if(githubusername) profileFields.githubusername= githubusername;
+    if(youtube) profileFields.youtube= youtube;
+    if(twitter) profileFields.twitter= twitter;
+    if(instagram) profileFields.instagram= instagram;
+    if(linkedin) profileFields.linkedin= linkedin;
+    if(facebook) profileFields.facebook= facebook;
+    if(skills) {
+        profileFields.skills = skills.split(',').map(skill => skill.trim());
+    }
+    
+    // Build social object
+    profileFields.social = {}
+    if(company) profileFields.social.youtube = youtube;
+    if(twitter) profileFields.social.twitter = twitter;
+    if(facebook) profileFields.social.facebook = facebook;
+    if(linkedin) profileFields.social.linkedin= linkedin;
+    if(instagram) profileFields.social.instagram = instagram;
+    
+    try{
+        let profile = Profile.findOne({ user: req.user.id});
+        
+        if(profile){
+            //Update
+            
+        }
+    } catch(err){
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+    
+    //console.log(profileFields.skills);
+    //res.send('Hello');
+    
 });
 
 module.exports = router;

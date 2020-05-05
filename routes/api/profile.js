@@ -39,39 +39,40 @@ router.post('/', [ auth, [
     
      const {
       company,
-      location,
       website,
+      location,
       bio,
-      skills,
       status,
       githubusername,
+      skills,
       youtube,
+      facebook,
       twitter,
       instagram,
-      linkedin,
-      facebook
+      linkedin
+      
     } = req.body;
     
     // Build profile object
-    const profileFields = {};
+    const profileFields = {};//initializing the profileFields object
     profileFields.user = req.user.id;
     if(company) profileFields.company = company;
-    if(location) profileFields.location = location;
     if(website) profileFields.website = website;
+    if(location) profileFields.location = location;
     if(bio) profileFields.bio= bio;
     if(status) profileFields.status= status;
     if(githubusername) profileFields.githubusername= githubusername;
-    if(youtube) profileFields.youtube= youtube;
-    if(twitter) profileFields.twitter= twitter;
-    if(instagram) profileFields.instagram= instagram;
-    if(linkedin) profileFields.linkedin= linkedin;
-    if(facebook) profileFields.facebook= facebook;
+    //if(youtube) profileFields.youtube= youtube;
+    //if(twitter) profileFields.twitter= twitter;
+    //if(instagram) profileFields.instagram= instagram;
+    //if(linkedin) profileFields.linkedin= linkedin;
+    //if(facebook) profileFields.facebook= facebook;
     if(skills) {
         profileFields.skills = skills.split(',').map(skill => skill.trim());
     }
     
     // Build social object
-    profileFields.social = {}
+    profileFields.social = {}//initializing the social object
     if(company) profileFields.social.youtube = youtube;
     if(twitter) profileFields.social.twitter = twitter;
     if(facebook) profileFields.social.facebook = facebook;
@@ -79,12 +80,19 @@ router.post('/', [ auth, [
     if(instagram) profileFields.social.instagram = instagram;
     
     try{
-        let profile = Profile.findOne({ user: req.user.id});
+        let profile = await Profile.findOne({ user: req.user.id});
         
         if(profile){
             //Update
-            
+            profile = await Profile.findOneAndUpdate({ user: req.user.id}, {$set: profileFields }, { new: true});
+            return res.json(profile);
         }
+        
+        // Create 
+        profile = new Profile(profileFields);
+        
+        await profile.save();
+        res.json(profile);
     } catch(err){
         console.error(err.message);
         res.status(500).send('Server Error');

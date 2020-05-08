@@ -43,7 +43,6 @@ router.post('/', [ auth, [
       location,
       bio,
       status,
-      githubusername,
       skills,
       youtube,
       facebook,
@@ -61,7 +60,7 @@ router.post('/', [ auth, [
     if(location) profileFields.location = location;
     if(bio) profileFields.bio= bio;
     if(status) profileFields.status= status;
-    if(githubusername) profileFields.githubusername= githubusername;
+    //if(githubusername) profileFields.githubusername= githubusername;
     //if(youtube) profileFields.youtube= youtube;
     //if(twitter) profileFields.twitter= twitter;
     //if(instagram) profileFields.instagram= instagram;

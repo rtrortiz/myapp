@@ -12,7 +12,7 @@ const User = require('../../models/Users');
 // @desc Create a post
 // @access Private
 router.get('/', [ auth, [
-    check('text', 'Text is required').not().isEmpty();
+    check('text', 'Text is required').not().isEmpty()
 ]],
            
           async (req, res) => {
@@ -156,7 +156,7 @@ router.put('/unlike/:id', auth, async(req, res)=> {
 // @desc Comment on a post
 // @access Private
 router.post('/comment/:id', [ auth, [
-    check('text', 'Text is required').not().isEmpty();
+    check('text', 'Text is required').not().isEmpty()
 ]],
            
           async (req, res) => {
@@ -177,7 +177,7 @@ router.post('/comment/:id', [ auth, [
             // Add new comment to the begining
             post.comments.unshift(newComment);
                  
-            const post = await newPost.save();
+             post = await newPost.save();
                  res.json(post);
                  
              } catch(err){

@@ -1,4 +1,4 @@
-//import { SET_ALERT, REMOVE_ALERT } from '../actions/types';
+import { GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE } from '../actions/types';
 
 
 // State
@@ -29,6 +29,11 @@ export default function(state = initialState, action){
                 error: payload,
                 loading: false
             };
+        case CLEAR_PROFILE:
+            ...state,
+            profile: null,
+            repos: [],
+            loading: false
         default:
             return state;
         

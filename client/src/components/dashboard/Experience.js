@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 const Experience = ({ experience }) => {
     const experiences = experience.map(exp => (
     <tr key={exp._id}>
-        <td>{exp.company}</td>
         <td className="hide-sm">{exp.title}</td>
+        <td>{exp.company}</td>
         <td>
         <Moment format='YYYY/MM/DD'>{exp.from}</Moment> - {
             exp.to === null ? (' Now') : (<Moment format='YYYY/MM/DD'>{exp.to}</Moment>)

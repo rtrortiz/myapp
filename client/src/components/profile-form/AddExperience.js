@@ -8,7 +8,7 @@ const AddExperience = ({ addExperience, history }) => {
     const [formData, setFormData]= useState({
         company: '',
         title: '',
-        location: '',
+        //location: '',
         from: '',
         to: '',
         current: false,
@@ -16,7 +16,7 @@ const AddExperience = ({ addExperience, history }) => {
     });
     
     const [toDateDisabled, toggleDisabled] = useState(false);
-    const { company, title, location, from, to, current, description } = formData;
+    const { company, title, from, to, current, description } = formData;
     const onChange = e => setFormData({...formData, [e.target.name] : e.target.value });
     
     return (
@@ -39,9 +39,7 @@ const AddExperience = ({ addExperience, history }) => {
         <div class="form-group">
           <input type="text" placeholder="* Company" name="company" value={company} onChange={e=> onChange(e)} required />
         </div>
-        <div class="form-group">
-          <input type="text" placeholder="Location" name="location" value={location} onChange={e=> onChange(e)}/>
-        </div>
+        
         <div class="form-group">
           <h4>From Date</h4>
           <input type="date" name="from" value={from} onChange={e=> onChange(e)}/>
